@@ -16,8 +16,15 @@ func main() {
 		log.Fatalf("could not load tls cert: %s", err)
 	}
 
-	//get a connection by diailing grpc
-	conn, err := grpc.Dial(":7777", grpc.WithTransportCredentials(creds))
+	// Setup the login/pass
+	auth := Authentication{
+		Login:    "amit",
+		Password: "tyagi",
+	}
+
+	//get a connection by dialing G-RPC
+	conn, err := grpc.Dial(":7777", grpc.WithTransportCredentials(creds),
+		grpc.WithPerRPCCredentials(&auth))
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}

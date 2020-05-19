@@ -28,7 +28,8 @@ func Run() {
 	}
 
 	// Create an array of gRPC options with the credentials
-	opts := []grpc.ServerOption{grpc.Creds(creds)}
+	opts := []grpc.ServerOption{grpc.Creds(creds),
+		grpc.UnaryInterceptor(unaryInterceptor)}
 
 	//create grpc service
 	grpcServer := grpc.NewServer(opts...)
