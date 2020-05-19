@@ -18,3 +18,12 @@ func (svc *HelloGRPCService) SayHello(ctx context.Context, in *pb.PingMessage) (
 	}
 	return &res, nil
 }
+
+//SayHellogw is implementing grpc-gw-hello-world
+func (svc *HelloGRPCService) SayHellogw(ctx context.Context, in *pb.PingMessage) (*pb.PingMessage, error) {
+	log.Printf("Received msg in gw : %s in request \n", in.Greeting)
+	res := pb.PingMessage{
+		Greeting: "Milgya greeting...bas rehn de.... gw",
+	}
+	return &res, nil
+}

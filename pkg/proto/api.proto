@@ -1,7 +1,7 @@
 syntax = "proto3";
 package proto;
 
-//import "google/api/annotations.proto";
+import "google/api/annotations.proto";
 
 message PingMessage {
     string greeting = 1;
@@ -13,5 +13,11 @@ service Ping {
         //     post: "/1/ping"
         //     body: "*"
         // };
+    }
+    rpc SayHellogw(PingMessage) returns (PingMessage) {
+        option (google.api.http) = {
+             post: "/1/ping"
+             body: "*"
+        };
     }
 }

@@ -9,9 +9,28 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
+//Authentication holds login and password
+type Authentication struct {
+	Login    string
+	Password string
+}
+
+// GetRequestMetadata gets the current request metadata
+func (a *Authentication) GetRequestMetadata(context.Context, ...string) (map[string]string, error) {
+	return map[string]string{
+		"login":    a.Login,
+		"password": a.Password,
+	}, nil
+}
+
+// RequireTransportSecurity indicates whether the credentials requires transport security
+func (a *Authentication) RequireTransportSecurity() bool {
+	return true
+}
+
 func main() {
 	// Create the client TLS credentials
-	creds, err := credentials.NewClientTLSFromFile("pkg/cert/server.crt", "mycompany.com")
+	creds, err := credentials.NewClientTLSFromFile("pkg/cert/server.crt", "localhost")
 	if err != nil {
 		log.Fatalf("could not load tls cert: %s", err)
 	}
@@ -36,5 +55,10 @@ func main() {
 		log.Fatalf("Error when calling SayHello: %s", err)
 	}
 	log.Printf("Response from server : %s \n", res.Greeting)
+	res1, err := client.SayHellogw(context.Background(), &proto.PingMessage{Greeting: "le greeting gw ...."})
+	if err != nil {
+		log.Fatalf("Error when calling SayHello: %s", err)
+	}
+	log.Printf("Response1 from server : %s \n", res1.Greeting)
 
 }

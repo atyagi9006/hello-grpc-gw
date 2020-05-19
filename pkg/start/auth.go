@@ -18,6 +18,13 @@ const (
 	clientIDKey contextKey = iota
 )
 
+func credMatcher(headerName string) (mdName string, ok bool) {
+	if headerName == "Login" || headerName == "Password" {
+	  return headerName, true
+	}
+	return "", false
+}
+
 // authenticateAgent check the client credentials
 func authenticateClient(ctx context.Context, s *api.HelloGRPCService) (string, error) {
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
